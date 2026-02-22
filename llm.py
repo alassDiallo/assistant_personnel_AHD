@@ -20,6 +20,6 @@ Réponse courte, précise et factuelle :
 """)
 vectores = getVectores()
 retriever = vectores.as_retriever(search_type="mmr", search_kwargs={
-                                  "k": 5, "fetch_k": 10, "lambda_mult": 0.5})
+                                  "k": 7, "fetch_k": 10, "lambda_mult": 0.5})
 doc_chain = create_stuff_documents_chain(llm, prompt)
 chain = create_retrieval_chain(retriever, doc_chain)
