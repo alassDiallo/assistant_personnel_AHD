@@ -5,7 +5,7 @@ from langchain_classic.chains import create_retrieval_chain
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-5-nano")
 prompt = ChatPromptTemplate.from_template("""
 Tu es un assistant strictement basé sur les documents ci-dessous.
 Ne réponds que si l'information est dans les documents.
