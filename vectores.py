@@ -18,14 +18,28 @@ def getVectores():
                       embedding_function=embeddings, persist_directory=Persis_dir)
     if vectores._collection.count() == 0:
         print("Chargement des documents et création des vecteurs...")
-        loader = PyPDFLoader(f"{DATA_DIR}/PhillippeGougler.pdf")
-        docs = loader.load()
+
+        if not os.path.exists(DATA_DIR):
+            return []
+        all_docs = []
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000, chunk_overlap=0)
-        split_docs = text_splitter.split_documents(docs)
-    # Créer les embeddings et la base de données vectorielle
+        pdf_files = [f for f in os.listdir(DATA_DIR) if f.endswith(".pdf")]
 
-        vectores.add_documents(split_docs)
+        for pdf in pdf_files:
+            path = os.path.join(DATA_DIR, pdf)
+            loader = PyPDFLoader(path)
+            docs = loader.load()
+            split_docs = text_splitter.split_documents(docs)
+            all_docs.extend(split_docs)
+
+        # loader = PyPDFLoader(f"{DATA_DIR}/PhillippeGougler.pdf")
+        # docs = loader.load()
+
+        # split_docs = text_splitter.split_documents(docs)
+    # Créer les embeddings et la base de données vectorielle
+        vectores.add_documents(all_docs)
+
     else:
         print("Vecteurs déjà présents, chargement depuis ChromaDB...")
 
